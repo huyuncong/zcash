@@ -8,12 +8,20 @@ B2=-datadir=2 $(B2_FLAGS)
 B3=-datadir=3 $(B3_FLAGS)
 BLOCKS=1
 ADDRESS=
+ACCOUNT=
 AMOUNT=
 ACCOUNT=
 HASH=
 HEIGHT=
 STRING=
 BOOL=true
+CONFIRMATIONS=0
+EMPTY=true
+WATCHONLY=false
+FROMADDRESS=
+TOADDRESS=
+MEMO=
+OPID=
 
 start:
 	$(BITCOIND) $(B1) -daemon
@@ -52,18 +60,78 @@ getblockcount:
 	$(BITCOINCLI) $(B3) getblockcount
 
 gettransaction:
-	$(BITCOINCLI) $(B1) gettransaction $(HASH)
-	$(BITCOINCLI) $(B2) gettransaction $(HASH)
-	$(BITCOINCLI) $(B3) gettransaction $(HASH)
+	$(BITCOINCLI) $(B1) gettransaction $(HASH) 
+	$(BITCOINCLI) $(B2) gettransaction $(HASH) 
+	$(BITCOINCLI) $(B3) gettransaction $(HASH) 
 
 gettransaction1:
-	$(BITCOINCLI) $(B1) gettransaction $(HASH)
+	$(BITCOINCLI) $(B1) gettransaction $(HASH) 
 
 gettransaction2:
-	$(BITCOINCLI) $(B2) gettransaction $(HASH)
+	$(BITCOINCLI) $(B2) gettransaction $(HASH) 
 
 gettransaction3:
-	$(BITCOINCLI) $(B3) gettransaction $(HASH)
+	$(BITCOINCLI) $(B3) gettransaction $(HASH) 
+
+getrawtransaction:
+	$(BITCOINCLI) $(B1) getrawtransaction $(HASH) 1
+	$(BITCOINCLI) $(B2) getrawtransaction $(HASH) 1
+	$(BITCOINCLI) $(B3) getrawtransaction $(HASH) 1
+
+getrawtransaction1:
+	$(BITCOINCLI) $(B1) getrawtransaction $(HASH) 1
+
+getrawtransaction2:
+	$(BITCOINCLI) $(B2) getrawtransaction $(HASH) 1
+
+getrawtransaction3:
+	$(BITCOINCLI) $(B3) getrawtransaction $(HASH) 1
+
+z_exportviewingkey1:
+	$(BITCOINCLI) $(B1) z_exportviewingkey $(ADDRESS) 
+
+z_exportviewingkey2:
+	$(BITCOINCLI) $(B2) z_exportviewingkey $(ADDRESS)
+
+z_exportviewingkey3:
+	$(BITCOINCLI) $(B3) z_exportviewingkey $(ADDRESS)
+
+z_importviewingkey1:
+	$(BITCOINCLI) $(B1) z_importviewingkey $(HASH) 
+
+z_importviewingkey2:
+	$(BITCOINCLI) $(B2) z_importviewingkey $(HASH)
+
+z_importviewingkey3:
+	$(BITCOINCLI) $(B3) z_importviewingkey $(HASH)
+
+z_gettotalbalance:
+	$(BITCOINCLI) $(B1) z_gettotalbalance
+	$(BITCOINCLI) $(B2) z_gettotalbalance
+	$(BITCOINCLI) $(B3) z_gettotalbalance
+
+z_listaddresses1:
+	$(BITCOINCLI) $(B1) z_listaddresses
+
+z_listaddresses2:
+	$(BITCOINCLI) $(B2) z_listaddresses
+
+z_listaddresses3:
+	$(BITCOINCLI) $(B3) z_listaddresses
+
+z_listreceivedbyaddress1:
+	$(BITCOINCLI) $(B1) z_listreceivedbyaddress $(ADDRESS)
+
+z_listreceivedbyaddress2:
+	$(BITCOINCLI) $(B2) z_listreceivedbyaddress $(ADDRESS)
+
+z_listreceivedbyaddress3:
+	$(BITCOINCLI) $(B3) z_listreceivedbyaddress $(ADDRESS)
+
+listreceivedbyaddress:
+	$(BITCOINCLI) $(B1) listreceivedbyaddress $(CONFIRMATIONS) $(EMPTY) $(WATCHONLY)
+	$(BITCOINCLI) $(B2) listreceivedbyaddress $(CONFIRMATIONS) $(EMPTY) $(WATCHONLY)
+	$(BITCOINCLI) $(B3) listreceivedbyaddress $(CONFIRMATIONS) $(EMPTY) $(WATCHONLY)
 
 getblockhash:
 	$(BITCOINCLI) $(B1) getblockhash $(HEIGHT)
@@ -132,13 +200,50 @@ getnetworkinfo:
 	$(BITCOINCLI) $(B3) getnetworkinfo
 
 getaccountaddress1:
-	$(BITCOINCLI) $(B1) getaccountaddress ""
+	$(BITCOINCLI) $(B1) getaccountaddress "$(ACCOUNT)"
 
 getaccountaddress2:
-	$(BITCOINCLI) $(B2) getaccountaddress ""
+	$(BITCOINCLI) $(B2) getaccountaddress "$(ACCOUNT)"
 
 getaccountaddress3:
-	$(BITCOINCLI) $(B3) getaccountaddress ""
+	$(BITCOINCLI) $(B3) getaccountaddress "$(ACCOUNT)"
+
+getnewaddress1:
+	$(BITCOINCLI) $(B1) getnewaddress "$(ACCOUNT)"
+
+getnewaddress2:
+	$(BITCOINCLI) $(B2) getnewaddress "$(ACCOUNT)"
+
+getnewaddress3:
+	$(BITCOINCLI) $(B3) getnewaddress "$(ACCOUNT)"	
+
+z_getnewaddress 	:
+	$(BITCOINCLI) $(B1) z_getnewaddress
+	$(BITCOINCLI) $(B2) z_getnewaddress 
+	$(BITCOINCLI) $(B3) z_getnewaddress 
+
+z_getnewaddress1:
+	$(BITCOINCLI) $(B1) z_getnewaddress 
+
+z_getnewaddress2:
+	$(BITCOINCLI) $(B2) z_getnewaddress
+
+z_getnewaddress3:
+	$(BITCOINCLI) $(B3) z_getnewaddress 
+
+importaddress:
+	$(BITCOINCLI) $(B1) importaddress $(ADDRESS) "" true
+	$(BITCOINCLI) $(B2) importaddress $(ADDRESS) "" true
+	$(BITCOINCLI) $(B3) importaddress $(ADDRESS) "" true
+
+importaddress1:
+	$(BITCOINCLI) $(B1) importaddress $(ADDRESS) "" true
+
+importaddress2:
+	$(BITCOINCLI) $(B2) importaddress $(ADDRESS) "" true
+
+importaddress3:
+	$(BITCOINCLI) $(B3) importaddress $(ADDRESS) "" true 
 
 sendtoaddress:
 	$(BITCOINCLI) $(B1) sendtoaddress $(ADDRESS) $(AMOUNT)
@@ -151,6 +256,33 @@ sendtoaddress2:
 
 sendtoaddress3:
 	$(BITCOINCLI) $(B3) sendtoaddress $(ADDRESS) $(AMOUNT)
+
+z_sendmany1:
+	$(BITCOINCLI) $(B1) z_sendmany $(FROMADDRESS) '[{"address": "$(TOADDRESS)", "amount": $(AMOUNT), "memo": "$(MEMO)"}]'
+
+z_sendmany2:
+	$(BITCOINCLI) $(B2) z_sendmany $(FROMADDRESS) '[{"address": "$(TOADDRESS)", "amount": $(AMOUNT), "memo": "$(MEMO)"}]'
+
+z_sendmany3:
+	$(BITCOINCLI) $(B3) z_sendmany $(FROMADDRESS) '[{"address": "$(TOADDRESS)", "amount": $(AMOUNT), "memo": "$(MEMO)"}]'
+
+z_getoperationresult1:
+	$(BITCOINCLI) $(B1) z_getoperationresult '["$(OPID)"]'
+
+z_getoperationresult2:
+	$(BITCOINCLI) $(B2) z_getoperationresult '["$(OPID)"]'
+
+z_getoperationresult3:
+	$(BITCOINCLI) $(B3) z_getoperationresult '["$(OPID)"]'
+
+z_getoperationstatus1:
+	$(BITCOINCLI) $(B1) z_getoperationstatus '["$(OPID)"]'
+
+z_getoperationstatus2:
+	$(BITCOINCLI) $(B2) z_getoperationstatus '["$(OPID)"]'
+
+z_getoperationstatus3:
+	$(BITCOINCLI) $(B3) z_getoperationstatus '["$(OPID)"]'
 
 address:
 	$(BITCOINCLI) $(B1) getnewaddress $(ACCOUNT)
