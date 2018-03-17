@@ -592,6 +592,7 @@ boost::filesystem::path GetConfigFile()
 void ReadConfigFile(map<string, string>& mapSettingsRet,
                     map<string, vector<string> >& mapMultiSettingsRet)
 {
+    //cerr<<GetConfigFile().string()<<endl;
     boost::filesystem::ifstream streamConfig(GetConfigFile());
     if (!streamConfig.good())
         throw missing_zcash_conf();
@@ -913,4 +914,3 @@ int GetNumCores()
 {
     return boost::thread::physical_concurrency();
 }
-

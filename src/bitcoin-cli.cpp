@@ -67,6 +67,10 @@ static bool AppInitRPC(int argc, char* argv[])
     //
     // Parameters
     //
+    //cerr<<argc<<endl;
+    //for (int i=0; i<argc; i++)
+    //  cerr<<argv[i]<<endl;
+    //cerr<<"begin"<<endl;
     ParseParameters(argc, argv);
     if (argc<2 || mapArgs.count("-?") || mapArgs.count("-h") || mapArgs.count("-help") || mapArgs.count("-version")) {
         std::string strUsage = _("Zcash RPC client version") + " " + FormatFullVersion() + "\n" + PrivacyInfo();
@@ -89,6 +93,8 @@ static bool AppInitRPC(int argc, char* argv[])
         return false;
     }
     try {
+        //cerr<<mapArgs.size()<<endl;
+        //cerr<<mapArgs.count("-datadir")<<endl;
         ReadConfigFile(mapArgs, mapMultiArgs);
     } catch (const std::exception& e) {
         fprintf(stderr,"Error reading configuration file: %s\n", e.what());

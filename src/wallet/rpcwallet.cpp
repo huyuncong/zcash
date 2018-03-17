@@ -3355,9 +3355,10 @@ UniValue z_getoperationstatus_IMPL(const UniValue& params, bool fRemoveFinishedO
 
 UniValue z_sendmany(const UniValue& params, bool fHelp)
 {
+    LogPrintf("Start ZSendMany\n");
     if (!EnsureWalletIsAvailable(fHelp))
         return NullUniValue;
-
+    LogPrintf("Start ZSendMany 2\n");
     if (fHelp || params.size() < 2 || params.size() > 4)
         throw runtime_error(
             "z_sendmany \"fromaddress\" [{\"address\":... ,\"amount\":...},...] ( minconf ) ( fee )\n"
@@ -3385,7 +3386,6 @@ UniValue z_sendmany(const UniValue& params, bool fHelp)
         );
 
     LOCK2(cs_main, pwalletMain->cs_wallet);
-
     // Check that the from address is valid.
     auto fromaddress = params[0].get_str();
     bool fromTaddr = false;
@@ -3539,7 +3539,7 @@ UniValue z_sendmany(const UniValue& params, bool fHelp)
     CMutableTransaction contextualTx = CreateNewContextualCMutableTransaction(Params().GetConsensus(), nextBlockHeight);
     bool isShielded = !fromTaddr || zaddrRecipients.size() > 0;
     if (contextualTx.nVersion == 1 && isShielded) {
-        contextualTx.nVersion = 2; // Tx format should support vjoinsplits 
+        contextualTx.nVersion = 2; // Tx format should support vjoinsplits
     }
     if (NetworkUpgradeActive(nextBlockHeight, Params().GetConsensus(), Consensus::UPGRADE_OVERWINTER)) {
         contextualTx.nExpiryHeight = nextBlockHeight + expiryDelta;
@@ -3734,7 +3734,7 @@ UniValue z_shieldcoinbase(const UniValue& params, bool fHelp)
     CMutableTransaction contextualTx = CreateNewContextualCMutableTransaction(
         Params().GetConsensus(), nextBlockHeight);
     if (contextualTx.nVersion == 1) {
-        contextualTx.nVersion = 2; // Tx format should support vjoinsplits 
+        contextualTx.nVersion = 2; // Tx format should support vjoinsplits
     }
     if (NetworkUpgradeActive(nextBlockHeight, Params().GetConsensus(), Consensus::UPGRADE_OVERWINTER)) {
         contextualTx.nExpiryHeight = nextBlockHeight + expiryDelta;

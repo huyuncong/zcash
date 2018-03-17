@@ -183,4 +183,3 @@ UniValue RPCConvertValues(const std::string &strMethod, const std::vector<std::s
 
     return params;
 }
-
